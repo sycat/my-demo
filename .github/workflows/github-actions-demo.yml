@@ -17,5 +17,10 @@ jobs:
           playwright install
       - name: Run pytest
         run: |
-          pytest -v
+          pytest -v --html=outputs/report.html --self-contained-html
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: outputs/
       - run: echo "🍏 This job's status is ${{ job.status }}."
