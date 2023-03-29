@@ -9,15 +9,18 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
       - name: Install python package
         run: |
-          pip3 install --no-cache-dir -r requirements.txt
+          pip3 install --no-cache-dir -r requirements.txt --use-pep517
       - name: Install playwright browser
         run: |
           playwright install
       - name: Run pytest
         run: |
-          pytest -v --html=outputs/report.html --self-contained-html
+          pytest --headed -v --html=outputs/report.html --self-contained-html
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

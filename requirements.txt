@@ -185,6 +185,9 @@ pytest-metadata==2.0.4 ; python_version >= "3.9" and python_version < "4.0" \
 pytest-playwright==0.3.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:2ffb27226739425a713363bab391d26e4a4c5b2f5ba4b83496b66cffc2223bab \
     --hash=sha256:8e91e00c9c7558f909302ebd2ec440e7c1147a72ead8805dc58b6a0eee9b161b
+pytest-timestamper==0.0.9 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:1e02f14d20cb8444a24de356d8c818a180559f0cb61119935fc6d64c6e6f963d \
+    --hash=sha256:229ba49f4dce27207bf9c5dc8531c983bc1c6a92e1de740567f914d6ff4b0b17
 pytest==7.2.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e \
     --hash=sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4

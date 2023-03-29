@@ -10,6 +10,7 @@ packages = [{include = "my_demo"}]
 python = "^3.9"
 pytest-playwright = "^0.3.2"
 pytest-html = "^3.2.0"
+pytest-timestamper = "^0.0.9"
 
 
 [build-system]

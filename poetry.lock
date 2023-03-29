@@ -408,6 +408,18 @@ pytest-base-url = ">=1.0.0,<3.0.0"
 python-slugify = ">=6.0.0,<7.0.0"
 
 [[package]]
+name = "pytest-timestamper"
+version = "0.0.9"
+description = "Pytest plugin to add a timestamp prefix to the pytest output"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pytest-timestamper-0.0.9.tar.gz", hash = "sha256:1e02f14d20cb8444a24de356d8c818a180559f0cb61119935fc6d64c6e6f963d"},
+    {file = "pytest_timestamper-0.0.9-py3-none-any.whl", hash = "sha256:229ba49f4dce27207bf9c5dc8531c983bc1c6a92e1de740567f914d6ff4b0b17"},
+]
+
+[[package]]
 name = "python-slugify"
 version = "6.1.2"
 description = "A Python slugify application that also handles Unicode"
@@ -503,4 +515,4 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "240dbaad7778a4b98130a848348427d0750950e77936c67541762cd8c0cd5ef6"
+content-hash = "069f711eeac098b4e3d5c549d1313ee5d7db673b100cbb914153144c5cace5e5"
