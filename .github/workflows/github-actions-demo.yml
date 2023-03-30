@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [workflow_dispatch]
 jobs:
   Explore-GitHub-Actions:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
@@ -20,7 +20,7 @@ jobs:
           playwright install
       - name: Run pytest
         run: |
-          pytest --headed -v --html=outputs/report.html --self-contained-html
+          pytest -v --html=outputs/report.html --self-contained-html
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
