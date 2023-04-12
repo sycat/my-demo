@@ -31,7 +31,7 @@ jobs:
             --html=outputs/test_report.html --self-contained-html \
             --junitxml=outputs/test_report.xml \
             test_1.py
-       - name: Upload test result
+      - name: Upload test result
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
