@@ -1,17 +1,29 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: workflow_dispatch
-
-env:
-  DAY_OF_WEEK: Monday
-
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
-    env:
-      Greeting: Hello
     steps:
-      - name: "Say Hello Mona it's Monday"
-        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-        env:
-          First_Name: Mona
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install python package
+        run: |
+          pip3 install --no-cache-dir -q -r requirements.txt --use-pep517
+      - name: Install playwright browser
+        run: |
+          playwright install --with-deps firefox
+      - name: Run pytest
+        run: |
+          pytest -v -s --browser=firefox --device='Desktop Firefox' --html=outputs/test_report.html --self-contained-html test_1.py
+      - name: Upload test result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: outputs/
+          retention-days: 30
+      - run: echo "🍏 This job's status is ${{ job.status }}."
