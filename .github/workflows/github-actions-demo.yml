@@ -4,7 +4,8 @@ on: workflow_dispatch
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
-    permissions: write-all
+    permissions:
+      actions: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.9
@@ -14,13 +15,19 @@ jobs:
       - name: Install python package
         run: |
           pip3 install --no-cache-dir -q -r requirements.txt --use-pep517
-      - name: Install playwright browser
-        run: |
-          playwright install --with-deps firefox
-      - name: Run pytest
+      # - name: Install playwright browser
+      #   run: |
+      #     playwright install --with-deps firefox
+      # - name: Run pytest
+      #   run: |
+      #     pytest -v -s  \
+      #       --browser=firefox --device='Desktop Firefox' \
+      #       --html=outputs/test_report.html --self-contained-html \
+      #       --junitxml=outputs/test_report.xml \
+      #       test_1.py
+      - name: Run simple test
         run: |
           pytest -v -s  \
-            --browser=firefox --device='Desktop Firefox' \
             --html=outputs/test_report.html --self-contained-html \
             --junitxml=outputs/test_report.xml \
             test_1.py
