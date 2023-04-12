@@ -7,3 +7,4 @@ def test_1_1(page: Page):
 
 def test_1_2(page: Page):
     page.goto('https://www.github.com/')
+    assert False

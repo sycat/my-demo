@@ -18,7 +18,18 @@ jobs:
           playwright install --with-deps firefox
       - name: Run pytest
         run: |
-          pytest -v -s --browser=firefox --device='Desktop Firefox' --html=outputs/test_report.html --self-contained-html test_1.py
+          pytest -v -s  \
+            --browser=firefox --device='Desktop Firefox' \
+            --html=outputs/test_report.html --self-contained-html \
+            --junitxml=outputs/test_report.xml \
+            test_1.py
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: Pytest Tests            # Name of the check run which will be created
+          path: outputs/*.xml    # Path to test results
+          reporter: jest-junit        # Format of test results
       - name: Upload test result
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
