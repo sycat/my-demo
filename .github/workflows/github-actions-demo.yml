@@ -4,8 +4,6 @@ on: workflow_dispatch
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
-    permissions:
-      checks: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.9
@@ -34,11 +32,13 @@ jobs:
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
+        permissions:
+          checks: write
         with:
           name: Pytest Tests            # Name of the check run which will be created
           path: outputs/test_report.xml    # Path to test results
           reporter: java-junit        # Format of test results
-          fail-on-error: true
+          # fail-on-error: true
       - name: Upload test result
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
