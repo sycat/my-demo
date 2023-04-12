@@ -44,7 +44,7 @@ jobs:
         with:
           artifact: test-report
           name: Pytest Tests            # Name of the check run which will be created
-          path: outputs/test_report.xml    # Path to test results
+          path: test_report.xml    # Path to test results
           reporter: java-junit        # Format of test results
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
