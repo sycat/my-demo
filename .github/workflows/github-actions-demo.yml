@@ -26,6 +26,14 @@ jobs:
         run: |
           scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs/ outputs/
 
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Pytest Tests
+          path: outputs/test_report.xml
+          reporter: java-junit
+
       - name: Upload test result
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
@@ -33,12 +41,5 @@ jobs:
           name: test-report
           path: outputs/
           retention-days: 30
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          name: Pytest Tests            # Name of the check run which will be created
-          path: outputs/test_report.xml    # Path to test results
-          reporter: java-junit        # Format of test results
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
