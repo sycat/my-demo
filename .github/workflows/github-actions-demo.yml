@@ -32,7 +32,7 @@ jobs:
         if: success() || failure()
         with:
           name: Pytest Tests
-          path: outputs/test_report.xml
+          path: ${{ github.workspace }}/outputs/test_report.xml
           reporter: java-junit
 
       - name: Upload test result
