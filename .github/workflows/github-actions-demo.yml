@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       Repo_Name: ${{ github.event.repository.name }}
-      Key_Path: "~/aws_ec2_key.pem"
+      # Key_Path: "~/aws_ec2_key.pem"
     permissions:
       checks: write
     steps:
@@ -14,17 +14,17 @@ jobs:
 
       - name: scp test
         run: |
-          echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> $Key_Path
-          chmod 400 $Key_Path
-          scp -r -o StrictHostKeyChecking=no -i $Key_Path ${{ env.GITHUB_WORKSPACE }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
+          echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ~/aws_ec2_key.pem
+          chmod 400 ~/aws_ec2_key.pem
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ env.GITHUB_WORKSPACE }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
 
       - name: run testing
         run: |
-          ssh -o StrictHostKeyChecking=no -i $Key_Path ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com "cd $Repo_Name && sh run_e2e_testing.sh"
+          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com "cd $Repo_Name && sh run_e2e_testing.sh"
 
       - name: copy outputs
         run: |
-          scp -r -o StrictHostKeyChecking=no -i $Key_Path ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs/ outputs/
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs/ outputs/
 
       - name: Upload test result
         if: ${{ always() }}
