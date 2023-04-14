@@ -8,43 +8,39 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install python package
-        run: |
-          pip3 install --no-cache-dir -q -r requirements.txt --use-pep517
-      # - name: Install playwright browser
-      #   run: |
-      #     playwright install --with-deps firefox
-      # - name: Run pytest
-      #   run: |
-      #     pytest -v -s  \
-      #       --browser=firefox --device='Desktop Firefox' \
-      #       --html=outputs/test_report.html --self-contained-html \
-      #       --junitxml=outputs/test_report.xml \
-      #       test_1.py
-      - name: Run simple test
-        run: |
-          pytest -v -s  \
-            --html=outputs/test_report.html --self-contained-html \
-            --junitxml=outputs/test_report.xml \
-            test_1.py
-      - name: Upload test result
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: outputs/
-          retention-days: 30
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          # artifact: test-report
-          name: Pytest Tests            # Name of the check run which will be created
-          path: outputs/test_report.xml    # Path to test results
-          reporter: java-junit        # Format of test results
+
+      - name: Deploy to ec2
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: ""
+          REMOTE_HOST: ec2-18-237-84-202.us-west-2.compute.amazonaws.com
+          REMOTE_USER: ec2-user
+          TARGET: /home/ec2-user/my-demo/
+          SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
+            sh ./run_e2e_testing.sh
+
+      # - name: Upload test result
+      #   if: ${{ always() }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test-report
+      #     path: outputs/
+      #     retention-days: 30
+      # - name: Test Report
+      #   uses: dorny/test-reporter@v1
+      #   if: success() || failure()    # run this step even if previous step failed
+      #   with:
+      #     name: Pytest Tests            # Name of the check run which will be created
+      #     path: outputs/test_report.xml    # Path to test results
+      #     reporter: java-junit        # Format of test results
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
