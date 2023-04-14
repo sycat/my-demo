@@ -16,7 +16,7 @@ jobs:
         run: |
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ~/aws_ec2_key.pem
           chmod 400 ~/aws_ec2_key.pem
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ env:GITHUB_WORKSPACE }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ github.workspace }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
 
       - name: run testing
         run: |
