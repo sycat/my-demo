@@ -13,13 +13,13 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i"
-          SOURCE: ""
+          SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
           REMOTE_HOST: ec2-18-237-84-202.us-west-2.compute.amazonaws.com
           REMOTE_USER: ec2-user
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: ""
           TARGET: /home/ec2-user/my-demo/
-          SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
-          EXCLUDE: ".git, .github"
+          EXCLUDE: ".git/, .github/"
           SCRIPT_BEFORE: |
             whoami
           SCRIPT_AFTER: |
