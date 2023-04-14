@@ -25,7 +25,7 @@ jobs:
 
       - name: copy outputs
         run: |
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs outputs
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs .
 
       - run: ls -al outputs
       - name: Test Report
