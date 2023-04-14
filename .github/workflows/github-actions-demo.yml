@@ -16,9 +16,9 @@ jobs:
           SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
           REMOTE_HOST: ec2-18-237-84-202.us-west-2.compute.amazonaws.com
           REMOTE_USER: ec2-user
-          ARGS: "-rlgoDzvc -i"
+          ARGS: "-rlgoDc -i -q"
           SOURCE: ""
-          TARGET: /home/ec2-user/my-demo/
+          TARGET: /home/ec2-user/${{ github.event.repository.name }}/
           EXCLUDE: ".git/, .github/"
           SCRIPT_BEFORE: |
             whoami
@@ -29,19 +29,19 @@ jobs:
             cd my-demo
             sh ./run_e2e_testing.sh
 
-      # - name: Upload test result
-      #   if: ${{ always() }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: test-report
-      #     path: outputs/
-      #     retention-days: 30
-      # - name: Test Report
-      #   uses: dorny/test-reporter@v1
-      #   if: success() || failure()    # run this step even if previous step failed
-      #   with:
-      #     name: Pytest Tests            # Name of the check run which will be created
-      #     path: outputs/test_report.xml    # Path to test results
-      #     reporter: java-junit        # Format of test results
+      - name: Upload test result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: outputs/
+          retention-days: 30
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: Pytest Tests            # Name of the check run which will be created
+          path: outputs/test_report.xml    # Path to test results
+          reporter: java-junit        # Format of test results
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
