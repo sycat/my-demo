@@ -19,13 +19,14 @@ jobs:
           REMOTE_USER: ec2-user
           TARGET: /home/ec2-user/my-demo/
           SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
+          EXCLUDE: ".git, .github"
           SCRIPT_BEFORE: |
             whoami
-            ls -al
           SCRIPT_AFTER: |
             whoami
             ls -al
             echo $RSYNC_STDOUT
+            cd my-demo
             sh ./run_e2e_testing.sh
 
       # - name: Upload test result
