@@ -18,7 +18,8 @@ jobs:
           chmod 400 $Key_Path
           scp -r -o StrictHostKeyChecking=no -i $Key_Path ${{ env.GITHUB_WORKSPACE }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
 
-      - run: |
+      - name: run testing
+        run: |
         ssh -o StrictHostKeyChecking=no -i $Key_Path ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com "cd $Repo_Name && sh run_e2e_testing.sh"
 
       - name: copy outputs
