@@ -7,6 +7,8 @@ jobs:
     env:
       Repo_Name: ${{ github.event.repository.name }}
       # Key_Path: "~/aws_ec2_key.pem"
+      Ec2_User: ec2-user
+      Ec2_Host: ec2-34-209-47-113.us-west-2.compute.amazonaws.com
     permissions:
       checks: write
     steps:
@@ -16,18 +18,21 @@ jobs:
         run: |
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ~/aws_ec2_key.pem
           chmod 400 ~/aws_ec2_key.pem
-          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com "rm -rf $Repo_Name"
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ github.workspace }} ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/
+          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host "rm -rf $Repo_Name"
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ github.workspace }} $Ec2_User@$Ec2_Host:~/
 
       - name: run testing
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com "cd $Repo_Name && sh run_e2e_testing.sh"
+          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host << EOF
+            cd ${Repo_Name}
+            pip install --no-cache-dir -q -r requirements.txt --use-pep517
+            pytest --html=outputs/test_report.html --self-contained-html --junitxml=outputs/test_report.xml test_1.py || [ $? = 1 ]
+            EOF
 
       - name: copy outputs
         run: |
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ec2-user@ec2-18-237-84-202.us-west-2.compute.amazonaws.com:~/$Repo_Name/outputs .
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host:~/$Repo_Name/outputs .
 
-      - run: ls -al outputs
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
