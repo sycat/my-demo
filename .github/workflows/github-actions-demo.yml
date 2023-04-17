@@ -18,20 +18,21 @@ jobs:
         run: |
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ~/aws_ec2_key.pem
           chmod 400 ~/aws_ec2_key.pem
-          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host "rm -rf $Repo_Name"
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ github.workspace }} $Ec2_User@$Ec2_Host:~/
+          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ env.Ec2_User }}@${{ env.Ec2_Host }} "rm -rf $Repo_Name"
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ github.workspace }} ${{ env.Ec2_User }}@${{ env.Ec2_Host }}:~/
 
       - name: run testing
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host << EOF
+          ssh -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ env.Ec2_User }}@${{ env.Ec2_Host }} << EOF
             cd ${Repo_Name}
             pip install --no-cache-dir -q -r requirements.txt --use-pep517
-            pytest --html=outputs/test_report.html --self-contained-html --junitxml=outputs/test_report.xml test_1.py || [ $? = 1 ]
+            pytest --html=outputs/test_report.html --self-contained-html --junitxml=outputs/test_report.xml test_1.py
             EOF
 
       - name: copy outputs
+        if: success() || failure()
         run: |
-          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem $Ec2_User@$Ec2_Host:~/$Repo_Name/outputs .
+          scp -r -o StrictHostKeyChecking=no -i ~/aws_ec2_key.pem ${{ env.Ec2_User }}@${{ env.Ec2_Host }}:~/$Repo_Name/outputs .
 
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -42,11 +43,11 @@ jobs:
           reporter: java-junit
 
       - name: Upload test result
-        if: ${{ always() }}
+        if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: outputs/
+          path: outputs
           retention-days: 30
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
