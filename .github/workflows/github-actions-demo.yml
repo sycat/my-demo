@@ -1,6 +1,6 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: workflow_dispatch
+on: push
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
@@ -12,6 +12,8 @@ jobs:
     permissions:
       checks: write
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
       # - name: Save Ec2 private key
       #   run: |
       #     echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ${{ env.Key_Path }}
@@ -28,7 +30,7 @@ jobs:
               IdentityFile ~/.ssh/aws_ec2.key
               # Port 80
               StrictHostKeyChecking no
-              # RequestTTY yes
+              RequestTTY force
           EOF
 
       - name: run testing
