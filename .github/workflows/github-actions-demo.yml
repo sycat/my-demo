@@ -22,7 +22,8 @@ jobs:
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" > ~/.ssh/aws_ec2.key
           chmod 400 ~/.ssh/aws_ec2.key
           cat >>~/.ssh/config <<END
-          Host *
+          Host ec2_host
+            HostName ${{ env.Ec2_Host }}
             User ubuntu
             IdentityFile ~/.ssh/aws_ec2.key
             Port 80
@@ -32,10 +33,14 @@ jobs:
 
       - name: run testing
         run: |
-          ssh ${{ env.Ec2_Host }} << EOF
+          ssh ec2_host << EOF
             cd ~
             pwd
             echo "${{ env.Repo_Name }}"
           EOF
+
+      - name: run scp
+        run: |
+          scp -r ${{ github.workspace }} ec2_host:~/test_scp/
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
