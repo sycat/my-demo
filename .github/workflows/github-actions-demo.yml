@@ -26,7 +26,7 @@ jobs:
             HostName ${{ env.Ec2_Host }}
             User ubuntu
             IdentityFile ~/.ssh/aws_ec2.key
-            Port 80
+            # Port 80
             StrictHostKeyChecking no
             RequestTTY force
           END
