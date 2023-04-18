@@ -28,7 +28,7 @@ jobs:
               IdentityFile ~/.ssh/aws_ec2.key
               # Port 80
               StrictHostKeyChecking no
-              RequestTTY yes
+              # RequestTTY yes
           EOF
 
       - name: run testing
@@ -41,6 +41,6 @@ jobs:
 
       - name: run scp
         run: |
-          scp -T -r ${{ github.workspace }} ${{ env.Ec2_Host }}:~/test_scp/
+          scp -r ${{ github.workspace }} ${{ env.Ec2_Host }}:~/test_scp/
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
