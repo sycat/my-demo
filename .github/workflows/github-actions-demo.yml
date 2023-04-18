@@ -22,13 +22,13 @@ jobs:
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" > ~/.ssh/aws_ec2.key
           chmod 400 ~/.ssh/aws_ec2.key
           cat >>~/.ssh/config <<EOF
-          Host *
-            # HostName ${{ env.Ec2_Host }}
-            User ubuntu
-            IdentityFile ~/.ssh/aws_ec2.key
-            # Port 80
-            StrictHostKeyChecking no
-            RequestTTY force
+            Host *
+              # HostName ${{ env.Ec2_Host }}
+              User ubuntu
+              IdentityFile ~/.ssh/aws_ec2.key
+              # Port 80
+              StrictHostKeyChecking no
+              RequestTTY force
           EOF
 
       - name: run testing
