@@ -41,6 +41,6 @@ jobs:
 
       - name: run scp
         run: |
-          scp -r ${{ github.workspace }} ec2_host:~/test_scp/
+          scp -r ${{ github.workspace }} ${{ env.Ec2_Host }}:~/test_scp/
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
