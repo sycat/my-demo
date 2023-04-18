@@ -8,6 +8,7 @@ jobs:
       Repo_Name: ${{ github.event.repository.name }}
       Key_Path: ~/aws_ec2_key.pem
       Ssh_Destination: ubuntu@ec2-54-188-83-98.us-west-2.compute.amazonaws.com
+      Ec2_Host: ec2-54-188-83-98.us-west-2.compute.amazonaws.com
     permissions:
       checks: write
     steps:
@@ -15,9 +16,20 @@ jobs:
         run: |
           echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ${{ env.Key_Path }}
           chmod 400 ${{ env.Key_Path }}
+      - name: Save ssh config
+        run: |
+          touch ~/.ssh/config
+          chmod 600 ~/.ssh/config
+          echo 'Host *
+            User ubuntu
+            Port 80
+            IdentityFile ~/aws_ec2_key.pem
+            StrictHostKeyChecking no
+            RequestTTY force > ~/.ssh/config
+
       - name: run testing
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }} <<EOF
+          ssh ${{ env.Ec2_Host }} << EOF
             cd ~
             pwd
             echo "${{ env.Repo_Name }}"
