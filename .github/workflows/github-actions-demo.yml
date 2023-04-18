@@ -7,47 +7,16 @@ jobs:
     env:
       Repo_Name: ${{ github.event.repository.name }}
       Key_Path: ~/aws_ec2_key.pem
-      Ssh_Destination: ec2-user@ec2-34-209-47-113.us-west-2.compute.amazonaws.com
+      Ssh_Destination: ubuntu@ec2-54-188-83-98.us-west-2.compute.amazonaws.com
     permissions:
       checks: write
     steps:
-      - uses: actions/checkout@v3
-
-      - name: scp test
-        run: |
-          echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ${{ env.Key_Path }}
-          chmod 400 ${{ env.Key_Path }}
-          ssh -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }} "rm -rf $Repo_Name"
-          scp -r -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ github.workspace }} ${{ env.Ssh_Destination }}:~/
-
       - name: run testing
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }} << EOF
-            cd ${Repo_Name}
-            pip install --no-cache-dir -q -r requirements.txt --use-pep517
-            pytest --html=outputs/test_report.html --self-contained-html --junitxml=outputs/test_report.xml test_1.py
+            cd ~
+            ped
+            echo "${{ env.Repo_Name }}"
             EOF
-
-      - name: copy outputs
-        if: success() || failure()
-        run: |
-          scp -r -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }}:~/$Repo_Name/outputs .
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Pytest Tests
-          path: outputs/*.xml
-          reporter: java-junit
-          fail-on-error: false
-
-      - name: Upload test result
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: outputs
-          retention-days: 30
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
