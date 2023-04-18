@@ -35,7 +35,7 @@ jobs:
 
       - name: run testing
         run: |
-          ssh -tt ${{ env.Ec2_Host }} <<EOF
+          ssh -T ${{ env.Ec2_Host }} <<EOF
             cd ~
             pwd
             echo "${{ env.Repo_Name }}"
