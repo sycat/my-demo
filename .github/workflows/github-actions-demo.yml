@@ -37,7 +37,7 @@ jobs:
             cd ~
             pwd
             echo "${{ env.Repo_Name }}"
-          EOF
+            EOF
 
       - name: run scp
         run: |
