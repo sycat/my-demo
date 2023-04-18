@@ -30,12 +30,12 @@ jobs:
               IdentityFile ~/.ssh/aws_ec2.key
               # Port 80
               StrictHostKeyChecking no
-              RequestTTY force
+              # RequestTTY force
           EOF
 
       - name: run testing
         run: |
-          ssh ${{ env.Ec2_Host }} <<EOF
+          ssh -t ${{ env.Ec2_Host }} <<EOF
             cd ~
             pwd
             echo "${{ env.Repo_Name }}"
