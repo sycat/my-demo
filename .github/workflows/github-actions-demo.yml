@@ -11,12 +11,15 @@ jobs:
     permissions:
       checks: write
     steps:
-      - name: run testing
+      - name: Save Ec2 private key
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }} << EOF
-            cd ~
-            ped
-            echo "${{ env.Repo_Name }}"
-            EOF
+          echo "${{ secrets.AWS_EC2_INSTANCE_SSH_PRIVATE_KEY }}" >> ${{ env.Key_Path }}
+          chmod 400 ${{ env.Key_Path }}
+      - name: run testing
+        run: ssh -o StrictHostKeyChecking=no -i ${{ env.Key_Path }} ${{ env.Ssh_Destination }} << EOF
+          cd ~
+          pwd
+          echo "${{ env.Repo_Name }}"
+          EOF
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
