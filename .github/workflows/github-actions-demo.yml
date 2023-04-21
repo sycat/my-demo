@@ -5,7 +5,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
     env:
-      Ec2_Host: ec2-54-188-83-98.us-west-2.compute.amazonaws.com
+      Ec2_Host: ec2-34-218-242-209.us-west-2.compute.amazonaws.com
     permissions:
       checks: write
     steps:
