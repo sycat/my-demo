@@ -25,10 +25,10 @@ jobs:
 
       - name: run testing
         run: |
-          ssh -T ${{ env.Ec2_Host }} <<EOF
+          ssh -T ${{ env.Ec2_Host }} << EOF
             echo "${{ github.event.repository.name }}"
             pwd
-            python3.9 -V | pytest.log
+            python3.9 -V | tee pytest.log
           EOF
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
