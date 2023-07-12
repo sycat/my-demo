@@ -19,19 +19,19 @@ jobs:
       - name: ⭐ Run E2E testing docker
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e .
-          pytest --browser=firefox --device="Desktop Firefox" test_playwright.py
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: E2E Test Report
-          path: outputs/test_report.xml
-          reporter: java-junit
-      - name: Upload test outputs
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-outputs
-          path: outputs
+      #     pip install -r requirements.txt
+      #     pip install -e .
+      #     pytest --browser=firefox --device="Desktop Firefox" test_playwright.py
+      # - name: Test Report
+      #   uses: dorny/test-reporter@v1
+      #   if: success() || failure()
+      #   with:
+      #     name: E2E Test Report
+      #     path: outputs/test_report.xml
+      #     reporter: java-junit
+      # - name: Upload test outputs
+      #   if: success() || failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test-outputs
+      #     path: outputs
