@@ -1,14 +1,13 @@
 name: test runner
 on: push
 jobs:
-  E2E-Testing:
+  playwright:
+    name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright/python:v1.35.0-jammy
     permissions:
       checks: write
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -21,7 +20,7 @@ jobs:
           pip install -r requirements.txt
           pip install -e .
       - name: ⭐ Run E2E testing
-        run: pytest --browser=firefox --device="Desktop Firefox" test_playwright.py
+        run: pytest test_playwright.py
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
