@@ -4,7 +4,7 @@ jobs:
   E2E-Testing:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright/python:v1.34.0-jammy
+      image: mcr.microsoft.com/playwright/python:v1.35.0-jammy
     permissions:
       checks: write
       id-token: write

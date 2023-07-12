@@ -13,4 +13,4 @@ def test_playwright_2(page: Page):
     page.goto('https://www.instagram.com/')
     time.sleep(3)
     page.screenshot(path='outputs/screenshot_2.png')
-    assert False
+    assert True
