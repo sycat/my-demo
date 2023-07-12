@@ -17,8 +17,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e .
+          pip install --use-deprecated -r requirements.txt
+          pip install --use-deprecated -e .
       - name: ⭐ Run E2E testing
         run: pytest test_playwright.py
       - name: Test Report
