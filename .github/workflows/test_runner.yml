@@ -7,7 +7,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright/python:v1.35.0-jammy
       volumes:
-        - outputs:outputs
+        - outputs:/outputs
     permissions:
       checks: write
     steps:
