@@ -1,5 +1,5 @@
 name: test runner
-on: push
+on: workflow_dispatch
 jobs:
   playwright:
     name: 'Playwright Tests'
