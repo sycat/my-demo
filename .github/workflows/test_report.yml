@@ -1,0 +1,32 @@
+name: Test Report
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps
+      - name: ⭐ Run E2E testing
+        run: pytest test_playwright.py
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            outputs/test_report.xml
+      - name: Upload test outputs
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-outputs
+          path: outputs
