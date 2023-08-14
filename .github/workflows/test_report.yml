@@ -23,10 +23,9 @@ jobs:
         run: pytest test_playwright.py
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: success() || failure()
         with:
-          files: |
-            outputs/test_report.xml
+          files: outputs/test_report.xml
       - name: Upload test outputs
         if: success() || failure()
         uses: actions/upload-artifact@v3
