@@ -28,4 +28,4 @@ jobs:
       # - name: Ensure browsers are installed
       #   run: playwright install chromium --with-deps
       - name: Run your tests
-        run: pytest test_playwright.py
+        run: pytest --device="Desktop Firefox" --browser=firefox test_playwright.py
