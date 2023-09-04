@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   test:
     timeout-minutes: 15
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     # permissions:
     #   contents: read
     #   issues: read
@@ -11,6 +11,7 @@ jobs:
     #   pull-requests: write
     container:
       image: mcr.microsoft.com/playwright/python:v1.35.0-jammy
+      options: --user root
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -25,7 +26,7 @@ jobs:
         run: pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
       # - name: Install dependencies \#3
       #   run: pip install -e .
-      - name: Ensure browsers are installed
-        run: playwright install firefox
+      # - name: Ensure browsers are installed
+      #   run: playwright install firefox
       - name: Run your tests
         run: pytest --device="Desktop Firefox" --browser=firefox test_playwright.py
