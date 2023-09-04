@@ -25,8 +25,8 @@ jobs:
         run: pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
       # - name: Install dependencies \#3
       #   run: pip install -e .
-      # - name: Ensure browsers are installed
-      #   run: playwright install firefox --with-deps
+      - name: Ensure browsers are installed
+        run: playwright install firefox --with-deps
       - name: Run your tests
         run: pytest --device='Desktop Firefox' --browser=firefox test_playwright.py
       - name: Publish Test Results
