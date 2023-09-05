@@ -25,6 +25,7 @@ jobs:
         if: success() || failure()
         with:
           files: outputs/test_report.xml
+          json_file: outputs/report.json
           json_suite_details: true
       - name: Upload test outputs
         if: success() || failure()
