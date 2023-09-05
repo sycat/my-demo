@@ -5,8 +5,6 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
-    #   contents: read
-    #   issues: read
       checks: write
       pull-requests: write
     container:
@@ -20,7 +18,7 @@ jobs:
           python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
           pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
       - name: Run your tests
-        run: HOME=/root pytest --device="Desktop Firefox" --browser=firefox test_playwright.py
+        run: HOME=/root pytest --device="Desktop Saferi" --browser=webkit test_playwright.py
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: success() || failure()
