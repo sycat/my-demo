@@ -4,9 +4,6 @@ jobs:
   Explore-GitHub-Actions:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
-    permissions:
-      checks: write
-      pull-requests: write
     container:
       image: mcr.microsoft.com/playwright/python:v1.35.0-jammy
     steps:
@@ -20,14 +17,3 @@ jobs:
         run: HOME=/root pytest --device="Desktop Firefox" --browser=firefox test_playwright.py
       # - name: Run your tests (by Safari)
       #   run: pytest --device="Desktop Safari" --browser=webkit test_playwright.py
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: success() || failure()
-        with:
-          files: outputs/test_report.xml
-      - name: Upload test outputs
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-outputs
-          path: outputs

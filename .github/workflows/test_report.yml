@@ -25,7 +25,7 @@ jobs:
         if: success() || failure()
         with:
           files: outputs/test_report.xml
-          job_summary: true
+          check_run_annotations: all tests
       - name: Upload test outputs
         if: success() || failure()
         uses: actions/upload-artifact@v3
