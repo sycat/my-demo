@@ -1,7 +1,6 @@
 name: Test Report
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-22.04
@@ -16,8 +15,8 @@ jobs:
           python-version: '3.9'
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
+          pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
           python -m playwright install --with-deps chromium
       - name: ⭐ Run E2E testing
         run: pytest test_playwright.py

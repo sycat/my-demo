@@ -1,7 +1,7 @@
 name: Test Playwright Container
 on: workflow_dispatch
 jobs:
-  test:
+  Explore-GitHub-Actions:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
