@@ -14,4 +14,4 @@ jobs:
           docker run --rm --ipc=host my-testing
       - name: Run facebook docker
         run: |
-          docker run --rm --ipc=host --env PYTEST_MARK=facebook my-testing-fb
+          docker run --rm --ipc=host --env PYTEST_MARK=facebook my-testing
