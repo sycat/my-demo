@@ -14,7 +14,7 @@ jobs:
           docker run --rm --ipc=host my-testing
       - name: Build facebook docker
         run: |
-          docker build -t my-testing-fb --no-cache -f docker/Dockerfile --build-arg SCOPE=facebook .
+          docker build -t my-testing-fb --no-cache -f docker/Dockerfile . --build-arg SCOPE=facebook
       - name: Run facebook docker
         run: |
           docker run --rm --ipc=host my-testing-fb

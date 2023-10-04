@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/playwright/python:v1.35.0-jammy
 
-ARG SCOPE
+ARG SCOPE=all-tests
 
 ENV BROWSER="firefox"
 ENV DEVICE="Desktop Firefox"
@@ -14,7 +14,7 @@ RUN pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD if [ "$SCOPE" = "facebook" ]; then \
+CMD if [[ "$SCOPE" = "facebook" ]]; then \
        pytest --browser=${BROWSER} \
               --device="${DEVICE}" \
               -m facebook; \
