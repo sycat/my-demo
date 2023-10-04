@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run origin docker
         run: |
-          docker build -t my-testing --no-cache -f docker/Dockerfile --build-arg .
+          docker build -t my-testing --no-cache -f docker/Dockerfile .
           docker run --rm --ipc=host my-testing
       - name: Run facebook docker
         run: |
