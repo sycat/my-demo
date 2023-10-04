@@ -6,11 +6,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run origin docker
+      - name: Build origin docker
         run: |
           docker build -t my-testing --no-cache -f docker/Dockerfile .
+      - name: Run origin docker
+        run: |
           docker run --rm --ipc=host my-testing
+      - name: Build facebook docker
+        run: |
+          docker build -t my-testing-fb --no-cache -f docker/Dockerfile --build-arg SCOPE=facebook .
       - name: Run facebook docker
         run: |
-          docker build -t my-testing --no-cache -f docker/Dockerfile --build-arg SCOPE=facebook .
-          docker run --rm --ipc=host my-testing
+          docker run --rm --ipc=host my-testing-fb
