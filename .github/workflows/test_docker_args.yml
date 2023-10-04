@@ -1,0 +1,16 @@
+name: Test Docker Args
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: push
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run origin docker
+        run: |
+          docker build -t my-testing --no-cache -f docker/Dockerfile --build-arg .
+          docker run --rm --ipc=host my-testing
+      - name: Run facebook docker
+        run: |
+          docker build -t my-testing --no-cache -f docker/Dockerfile --build-arg SCOPE=facebook .
+          docker run --rm --ipc=host my-testing

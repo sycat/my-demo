@@ -18,6 +18,12 @@ addopts = """\
     --self-contained-html \
     --junitxml=outputs/test_report.xml \
     """
+testpaths = [
+    "tests",
+]
+markers = [
+    "facebook",
+]
 
 [build-system]
 requires = ["poetry-core"]
