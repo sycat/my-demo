@@ -1,6 +1,5 @@
 name: Test Prod Tag
 on:
-  push:
   workflow_dispatch:
 jobs:
   Test-Prod-Tag:
