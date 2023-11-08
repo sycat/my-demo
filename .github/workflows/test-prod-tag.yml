@@ -1,0 +1,17 @@
+name: Test Prod Tag
+on: push
+jobs:
+  Test-Prod-Tag:
+    runs-on: ubuntu-22.04
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.39.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main/prod
+      - name: Install dependencies
+        run: |
+          python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
+          pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
+      - name: Run your tests (by Firefox)
+        run: HOME=/root pytest --device="Desktop Firefox" --browser=firefox
