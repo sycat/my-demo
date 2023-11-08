@@ -1,5 +1,7 @@
 name: Test Prod Tag
-on: push
+on:
+  push:
+  workflow_dispatch:
 jobs:
   Test-Prod-Tag:
     runs-on: ubuntu-22.04
