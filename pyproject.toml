@@ -16,6 +16,7 @@ minversion = "7.2"
 addopts = """\
     --html=outputs/test_report.html \
     --self-contained-html \
+    --junitxml=outputs/test_report.xml \
     """
 testpaths = [
     "tests",

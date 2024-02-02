@@ -1,0 +1,46 @@
+name: Temp badge workflow
+
+on:
+  push:
+
+jobs:
+  Test-Badge:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
+          pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
+      - name: ⭐ Run testing
+        run: pytest tests/test_1.py
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: success() || failure()
+        with:
+          files: outputs/test_report.xml
+      - name: Upload test outputs
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-outputs
+          path: outputs
+
+      - run: |
+          pip install anybadge
+      - run: echo "tests_succ is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}"
+      - run: echo "tests_fail is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}"
+      - run: echo "tests_error is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_error }}"
+      - run: anybadge -l pylint -v ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }} -f badge.svg --color='#97CA00'
+      - name: Upload test outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge.svg
+          path: badge.svg

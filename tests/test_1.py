@@ -1,5 +1,7 @@
+import pytest
 
 
-def test_1_1(page):
-    page.goto("https://www.google.com")
-    assert False
+@pytest.mark.parametrize("i", range(50))
+def test_num(i):
+    if i in (17, 25):
+        pytest.fail("bad luck")
