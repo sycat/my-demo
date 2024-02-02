@@ -22,7 +22,9 @@ jobs:
           python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
           pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
       - name: ⭐ Run testing
-        run: pytest tests/test_1.py
+        run: |
+          pytest tests/test_1.py
+        
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         id: test-results
@@ -36,13 +38,17 @@ jobs:
           name: test-outputs
           path: outputs
 
-      - run: |
+      - name: Generate badge
+        if: always()
+        run: |
           pip install anybadge
-      - run: echo "tests_succ is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}"
-      - run: echo "tests_fail is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}"
-      - run: echo "tests_error is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_error }}"
-      - run: anybadge -l pylint -v ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }} -f badge.svg --color='#97CA00'
+          echo "tests_succ is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}"
+          echo "tests_fail is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}"
+          echo "tests_error is ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_error }}"
+          anybadge -l pylint -v ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }} -f badge.svg --color='#97CA00'
+
       - name: Upload test outputs
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: badge.svg
