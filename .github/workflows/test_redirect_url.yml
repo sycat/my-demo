@@ -1,0 +1,17 @@
+name: Test redirect URL
+on: push
+jobs:
+  Testing:
+    timeout-minutes: 10
+    runs-on: ubuntu-22.04
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.39.0-jammy
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
+          pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
+      - name: Run your tests (by Firefox)
+        run: HOME=/root pytest --device="Desktop Firefox" --browser=firefox tests/test_1.py
