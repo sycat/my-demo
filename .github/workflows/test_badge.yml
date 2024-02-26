@@ -20,7 +20,7 @@ jobs:
             color=green
           fi
           echo $color
-          anybadge -o -l '${{ inputs.badge_title }}' -v '$num0 passed, num1 failed, num3 errors' -f badge.svg -c $color
+          anybadge -o -l 'test badge' -v '$num0 passed, num1 failed, num3 errors' -f badge.svg -c $color
       - name: Upload badge.svg
         uses: actions/upload-artifact@v3
         with:
