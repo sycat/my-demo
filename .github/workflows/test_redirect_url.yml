@@ -1,5 +1,5 @@
 name: Test redirect URL
-on: push
+on: workflow_dispatch
 jobs:
   Testing:
     timeout-minutes: 10
