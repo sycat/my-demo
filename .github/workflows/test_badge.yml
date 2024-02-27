@@ -17,7 +17,7 @@ jobs:
           pip install anybadge
           num0=23
           num1=0
-          num2=1
+          num2=0
           if [ $(($num1 + $num2)) -gt 0 ]; then
             color=red
           else
