@@ -8,17 +8,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install dependencies
-        # env:
-        #   num0: 23
-        #   num1: 0
-        #   num2: 1
         shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install anybadge
-          num0=23
-          num1=0
-          num2=0
+          num0='23'
+          num1='1'
+          num2='0'
           if [ $(($num1 + $num2)) -gt 0 ]; then
             color=red
           else
