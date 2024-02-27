@@ -8,6 +8,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install dependencies
+        # env:
+        #   num0: 23
+        #   num1: 0
+        #   num2: 1
         run: |
           python -m pip install --upgrade pip
           pip install anybadge
@@ -20,9 +24,9 @@ jobs:
             color=green
           fi
           echo $color
-          anybadge -o -l 'test badge' -v '$num0 passed, num1 failed, num3 errors' -f badge.svg -c $color
+          anybadge -o -l 'test badge' -v '$num0 passed, $num1 failed, $num2 errors' -f badge.svg -c $color
       - name: Upload badge.svg
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: badge.svg
           path: badge.svg
