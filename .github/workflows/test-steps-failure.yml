@@ -29,3 +29,7 @@ jobs:
       if: ${{ success() || steps.demo2.conclusion == 'failure' }}
       run: |
         echo "Run test step."
+
+    - name: Test step no condition
+      run: |
+        echo "Run test step."
