@@ -1,0 +1,31 @@
+name: Test Steps Failure
+
+on: push
+
+jobs:
+  test-steps:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Step success
+      id: demo1
+      run: |
+        exit 0
+
+    - name: Test step if success
+      if: ${{ success() || steps.demo1.conclusion == 'failure' }}
+      run: |
+        echo "Run test step."
+
+    - name: Step failure
+      id: demo2
+      run: |
+        exit 1
+
+    - name: Test step if failure
+      if: ${{ success() || steps.demo2.conclusion == 'failure' }}
+      run: |
+        echo "Run test step."
