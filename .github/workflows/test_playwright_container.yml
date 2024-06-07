@@ -17,7 +17,6 @@ jobs:
           python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
           pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
 
-    - run: python my_script.py
       - name: Check python version
         run: python --version
 
