@@ -16,9 +16,9 @@ playwright = "^1.44.0"
 [tool.pytest.ini_options]
 minversion = "7.2"
 addopts = """\
-    --html=outputs/test_report.html \
+    --html=test-results/test_report.html \
     --self-contained-html \
-    --junitxml=outputs/test_report.xml \
+    --junitxml=test-results/test_report.xml \
     """
 testpaths = [
     "tests",
