@@ -10,20 +10,15 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12' 
+
       - name: Install dependencies
         run: |
           python -m pip install --root-user-action=ignore --no-cache-dir --upgrade pip
           pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
           playwright install --with-deps
 
-      - name: Check python version
-        run: python --version
-
       - name: Run your tests
-        run: HOME=/root pytest --video=retain-on-failure --screenshot=only-on-failure --device="iPhone 14" --browser=webkit test_playwright.py
+        run: pytest --video=retain-on-failure --screenshot=only-on-failure --device="iPhone 14" --browser=webkit test_playwright.py
 
       - name: Upload test outputs
         uses: actions/upload-artifact@v4
